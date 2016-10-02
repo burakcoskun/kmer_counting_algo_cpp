@@ -1,15 +1,15 @@
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
-#include <string>
 #include <fstream>
-#include <iostream>
-#include <unordered_map>
+#include <string>
+
+using namespace std;
+
 #include "kmer_algo.h"
 
 #define mod_prime_num 	10000019
 
-using namespace std;
 
 char conv[128];
 
@@ -88,19 +88,13 @@ void read_input(char *file_name){
 		getline(input,sequence,'\n');
 		all_sequences += sequence;
 		calc_hash(sequence);
-		// cout << all_sequences[all_sequences.size()-1] << '\n';
 
-		// cout << sequence + '\n';
 		tot_length += sequence.size();
 
 		getline(input,sequence,'\n');
 		getline(input,sequence,'\n');
 
-		// if(c % 10000 == 0)
-			// printf("%d\n", c);
-
 	}
-	// all_sequences.pop_back();
 }
 
 void get_results(){
