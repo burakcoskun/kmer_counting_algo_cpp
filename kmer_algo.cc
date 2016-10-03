@@ -1,5 +1,3 @@
-#include <cstdio>
-#include <cstdlib>
 #include <vector>
 #include <fstream>
 #include <string>
@@ -30,7 +28,6 @@ void set_conv(){
 }
 
 void insert_hash(long long int pos,long long int hash_val,string &sequence){
-	// printf("%lld\n", hash_val);
 	for(int i = 0 ; i < m_hash_map[hash_val].size(); ++i){
 		int j , k = m_hash_map[hash_val][i].second;
 		for(j = 0 ; j < k_mer_length ; ++j)
