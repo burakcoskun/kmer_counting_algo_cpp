@@ -7,6 +7,6 @@ void calc_hash(string&);
 
 void get_results();
 
-void insert_hash(long long int,long long int , string& );
+void insert_hash(int ,int  , string& );
 
 #endif

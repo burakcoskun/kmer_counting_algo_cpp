@@ -1,0 +1,1 @@
+g++ kmer_algo.cc -o kmer -O2 

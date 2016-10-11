@@ -1,6 +1,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <queue>
 
 using namespace std;
 
@@ -14,11 +15,13 @@ char conv[128];
 
 int k_mer_length;
 int topCount;
-long long tot_length;
+int tot_length;
 string all_sequences;
 
-vector<vector<pair<long long ,long long> > > m_hash_map;
-vector<pair<long long, long long> > res;
+typedef pair<int,int>  PAIR;
+
+vector<vector<PAIR > > m_hash_map;
+priority_queue<PAIR , vector<PAIR >, greater<PAIR > > res;
 
 void set_conv(){
 	conv['A'] = 0;
@@ -27,7 +30,7 @@ void set_conv(){
 	conv['G'] = 3;
 }
 
-void insert_hash(long long int pos,long long int hash_val,string &sequence){
+void insert_hash(int  pos,int  hash_val,string &sequence){
 	for(int i = 0 ; i < m_hash_map[hash_val].size(); ++i){
 		int j , k = m_hash_map[hash_val][i].second;
 		for(j = 0 ; j < k_mer_length ; ++j)
@@ -48,8 +51,8 @@ void insert_hash(long long int pos,long long int hash_val,string &sequence){
 void calc_hash(string &sequence ){
 	if(sequence.length() < k_mer_length)
 		return ; 
-	long long int pow4 = 1;
-	long long int hash_val = 0;
+	int  pow4 = 1;
+	int  hash_val = 0;
 	for(int i = k_mer_length -1 ;  i >= 0 ; --i){
 		hash_val += ((pow4 * conv[sequence[i]]) % (mod_prime_num));
 		hash_val %= mod_prime_num;
@@ -60,7 +63,7 @@ void calc_hash(string &sequence ){
 		}
 	}
 
-	insert_hash((long long)0,hash_val,sequence);
+	insert_hash((int)0,hash_val,sequence);
 
 	for(int i = k_mer_length ; i< sequence.length() ; ++i){
 		hash_val -= ((conv[sequence[i-k_mer_length]] * pow4)%(mod_prime_num));
@@ -83,9 +86,9 @@ void read_input(char *file_name){
 
 		getline(input,sequence,'\n');
 		getline(input,sequence,'\n');
+
 		all_sequences += sequence;
 		calc_hash(sequence);
-
 		tot_length += sequence.size();
 
 		getline(input,sequence,'\n');
@@ -96,13 +99,19 @@ void read_input(char *file_name){
 
 void get_results(){
 	for(int i = 0 ; i < mod_prime_num ; ++i)
-		for(int j = 0 ; j < m_hash_map[i].size(); ++j)
-			res.push_back(m_hash_map[i][j]);
-	sort(res.begin(),res.end(),greater<pair<int,int> >());
-	for(int i = 0 ; i < topCount ; ++i){
+		for(int j = 0 ; j < m_hash_map[i].size(); ++j){
+			if(res.size() < topCount) 
+				res.push(m_hash_map[i][j]);
+			else if(res.top().first < m_hash_map[i][j].first){
+				res.pop();
+				res.push(m_hash_map[i][j]);
+			}
+		}
+	while( !res.empty() ){
 		for(int j = 0 ; j < k_mer_length; ++j)
-			printf("%c",all_sequences[res[i].second+j]);
+			printf("%c",all_sequences[res.top().second+j]);
 		printf("\n");
+		res.pop();
 	}
 }
 
