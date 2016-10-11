@@ -1,5 +1,7 @@
-./build.sh ile derledikten sonra programi ./kmer filename.fastq 30 25 şeklinde çalıştırabilirsiniz.
+compile the code by running build.sh
 
-*input parametrelerinin doğru girileceğini assume ettim,(dosya var mı, dogru sayıda input girilmiş mi vb. kontrolleri yapmadım).
+then, run the program like ./kmer filename.fastq 30 25
 
-*output standart output a yazilmaktadir.
+* I have assumed the input parameters are correct
+
+* output is written to standart output
